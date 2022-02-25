@@ -3,7 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { Task } from 'types/task'
 import { v4 as uuid } from 'uuid'
 
-const initialState: Task[] = []
+const initialState: Task[] = [
+  {
+    id: uuid(),
+    name: 'Learn Redux',
+    completed: false,
+  },
+]
 
 export const taskSlice = createSlice({
   name: 'tasks',
@@ -26,10 +32,10 @@ export const taskSlice = createSlice({
     },
     remove: (tasks, action: PayloadAction<string>) => {
       const id = action.payload
-      const filteredTasks = tasks.filter((task) => task.id !== id)
-      console.log(filteredTasks)
 
-      tasks = filteredTasks
+      // Immer expects that you will either mutate the existing state,
+      // or construct a new state value yourself and return it, but not both in the same function!
+      return tasks.filter((task) => task.id !== id)
     },
   },
 })

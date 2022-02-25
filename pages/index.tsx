@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 import { create, toggle, remove } from 'features/task/taskSlice'
 import { useAppSelector, useAppDispatch } from 'app/hooks'
+import Head from 'next/head'
 
 const Home = () => {
   const tasks = useAppSelector((state) => state.tasks)
@@ -28,8 +29,13 @@ const Home = () => {
 
   return (
     <>
-      <h1 className='mb-4'>Tasks</h1>
-      <div className='flex flex-col gap-4'>
+      <Head>
+        <title>Task manager (using Redux)</title>
+        <meta name='description' content='Task manager (using Redux)' />
+      </Head>
+
+      <main className='mx-auto flex max-w-md flex-col gap-4'>
+        <h1>Tasks</h1>
         {tasks.map(({ id, name, completed }) => (
           <div key={id} className='flex gap-4'>
             <span
@@ -40,25 +46,27 @@ const Home = () => {
             >
               {name}
             </span>
-
             <button onClick={() => deleteTask(id)} className='text-red-500'>
               Delete
             </button>
           </div>
         ))}
-      </div>
 
-      <div className='flex flex-col gap-4'>
         <input
           value={newTask}
           onChange={handleTaskChange}
           placeholder='Task name'
           type='text'
+          className='bg-gray-800'
         />
-        <button onClick={createNewTask} className='text-left'>
+        <button
+          onClick={createNewTask}
+          disabled={newTask === '' ? true : false}
+          className='max-w-fit'
+        >
           Add task
         </button>
-      </div>
+      </main>
     </>
   )
 }
