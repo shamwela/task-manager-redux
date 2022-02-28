@@ -37,7 +37,10 @@ const Home = () => {
       <main className='mx-auto flex max-w-md flex-col gap-4'>
         <h1>Tasks</h1>
         {tasks.map(({ id, name, completed }) => (
-          <div key={id} className='flex gap-4'>
+          <div
+            key={id}
+            className='flex justify-between border-b-2 border-gray-800 pb-2'
+          >
             <span
               onClick={() => toggleTask(id)}
               className={
